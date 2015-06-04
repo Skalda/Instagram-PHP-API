@@ -2,7 +2,7 @@
 	"name": "Instagram/instagram",
 	"autoload": {
 		"psr-4": {
-			"MetzWeb\\Instagram": "src"
+			"MetzWeb\\Instagram\\": "src"
 		}
 	}
 }
