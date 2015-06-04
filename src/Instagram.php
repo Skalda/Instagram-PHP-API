@@ -147,7 +147,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/search', false, $params);
+        return $this->_makeCall('users/search', isset($this->_accesstoken), $params);
     }
 
     /**
@@ -159,14 +159,12 @@ class Instagram
      */
     public function getUser($id = 0)
     {
-        $auth = false;
 
         if ($id === 0 && isset($this->_accesstoken)) {
             $id = 'self';
-            $auth = true;
         }
 
-        return $this->_makeCall('users/' . $id, $auth);
+        return $this->_makeCall('users/' . $id, isset($this->_accesstoken));
     }
 
     /**
@@ -202,7 +200,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/' . $id . '/media/recent', strlen($this->getAccessToken()), $params);
+        return $this->_makeCall('users/' . $id . '/media/recent', isset($this->_accesstoken), $params);
     }
 
     /**
@@ -315,7 +313,7 @@ class Instagram
      */
     public function searchMedia($lat, $lng, $distance = 1000, $minTimestamp = null, $maxTimestamp = null)
     {
-        return $this->_makeCall('media/search', false, array(
+        return $this->_makeCall('media/search', strlen($this->getAccessToken()), array(
             'lat' => $lat,
             'lng' => $lng,
             'distance' => $distance,
@@ -355,7 +353,7 @@ class Instagram
      */
     public function searchTags($name)
     {
-        return $this->_makeCall('tags/search', false, array('q' => $name));
+        return $this->_makeCall('tags/search', isset($this->_accesstoken), array('q' => $name));
     }
 
     /**
@@ -410,7 +408,7 @@ class Instagram
      */
     public function getMediaComments($id)
     {
-        return $this->_makeCall('media/' . $id . '/comments', false);
+        return $this->_makeCall('media/' . $id . '/comments', isset($this->_accesstoken));
     }
 
     /**
@@ -472,7 +470,7 @@ class Instagram
      */
     public function getLocation($id)
     {
-        return $this->_makeCall('locations/' . $id, false);
+        return $this->_makeCall('locations/' . $id, isset($this->_accesstoken));
     }
 
     /**
@@ -484,7 +482,7 @@ class Instagram
      */
     public function getLocationMedia($id)
     {
-        return $this->_makeCall('locations/' . $id . '/media/recent', false);
+        return $this->_makeCall('locations/' . $id . '/media/recent', isset($this->_accesstoken));
     }
 
     /**
@@ -498,7 +496,7 @@ class Instagram
      */
     public function searchLocation($lat, $lng, $distance = 1000)
     {
-        return $this->_makeCall('locations/search', false, array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
+        return $this->_makeCall('locations/search', isset($this->_accesstoken), array('lat' => $lat, 'lng' => $lng, 'distance' => $distance));
     }
 
     /**
