@@ -31,6 +31,9 @@ class Instagram
      */
     const API_OAUTH_TOKEN_URL = 'https://api.instagram.com/oauth/access_token';
 
+	/** @var callable[]  function($error_code, $error_type, $error_message); Occurs when response has meta code other then 200 */
+	public $onError = [];
+
     /**
      * The Instagram API Key.
      *
@@ -636,7 +639,16 @@ class Instagram
 
         curl_close($ch);
 
-        return json_decode($jsonData);
+        $data = json_decode($jsonData);
+		if($data->meta->code != 200) {
+			foreach($this->onError as $errorHandler) {
+				if(!is_callable($errorHandler)) {
+					throw new \Exception('onError method is not callable.');
+				}
+				call_user_func_array($errorHandler, array($data->meta->code, $data->meta->error_type, $data->meta->error_message));
+			}
+		}
+		return $data;
     }
 
     /**
