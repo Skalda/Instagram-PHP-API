@@ -387,7 +387,7 @@ class Instagram
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
+        return $this->_makeCall('tags/' . $name . '/media/recent', true, $params);
     }
 
     /**
